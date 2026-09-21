@@ -1,0 +1,4 @@
+.DS_Store
+
+# full-resolution headshot source, not needed to serve the site
+images/portrait-original.jpg
