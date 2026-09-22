@@ -81,6 +81,11 @@
     });
   }
 
+  function contactIsAtBottom() {
+    var doc = document.documentElement;
+    return window.scrollY + window.innerHeight >= doc.scrollHeight - nav.offsetHeight - 4;
+  }
+
   if (sections.length && "IntersectionObserver" in window) {
     var visible = new Map();
 
@@ -88,6 +93,11 @@
       entries.forEach(function (entry) {
         visible.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0);
       });
+
+      if (contactIsAtBottom()) {
+        setActive("contact");
+        return;
+      }
 
       var bestId = null, bestRatio = 0;
       visible.forEach(function (ratio, id) {
@@ -101,6 +111,12 @@
 
     sections.forEach(function (section) { spy.observe(section); });
   }
+
+  window.addEventListener("scroll", function () {
+    if (contactIsAtBottom()) setActive("contact");
+  }, { passive: true });
+
+  if (contactIsAtBottom()) setActive("contact");
 
   window.addEventListener("resize", function () {
     var active = document.querySelector(".nav__link.is-active");
